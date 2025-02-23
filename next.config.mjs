@@ -7,7 +7,9 @@ try {
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export', 
+  output: 'export',
+  basePath: isGithubPages ? '/personal-website' : '',
+  assetPrefix: isGithubPages ? '/personal-website/' : '',
   eslint: {
     ignoreDuringBuilds: true,
   },
