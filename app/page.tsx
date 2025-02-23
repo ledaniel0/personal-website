@@ -48,9 +48,9 @@ export default function Home() {
       <section id="projects">
         <ProjectsShowcase />
       </section>
-      <section id="skills">
+      {/* <section id="skills">
         <SkillTree />
-      </section>
+      </section> */}
       <section id="contact">
         <ContactForm />
       </section>
