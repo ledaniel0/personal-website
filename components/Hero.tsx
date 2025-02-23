@@ -91,7 +91,7 @@ const Hero: React.FC = () => {
             transition={{ delay: 0.6, duration: 0.8 }}
           >
             <a
-              href="https://github.com/yourusername"
+              href="https://github.com/ledaniel0"
               target="_blank"
               rel="noopener noreferrer"
               className="text-white hover:text-blue-400 transition-colors duration-300"
@@ -99,7 +99,7 @@ const Hero: React.FC = () => {
               <Github size={24} />
             </a>
             <a
-              href="https://linkedin.com/in/yourusername"
+              href="https://www.linkedin.com/in/daniel-le2323755/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-white hover:text-blue-400 transition-colors duration-300"
@@ -107,7 +107,7 @@ const Hero: React.FC = () => {
               <Linkedin size={24} />
             </a>
             <a
-              href="https://instagram.com/yourusername"
+              href="https://www.instagram.com/le_.daniel/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-white hover:text-blue-400 transition-colors duration-300"
