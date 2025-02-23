@@ -15,7 +15,7 @@ const projects: Project[] = [
     title: "Serenity",
     description: "Healthcare platform automating prior authorizations",
     technologies: ["AWS Bedrock", "Python", "React", "Django", "Amazon S3", "RAG Pipeline", "Amazon Titan"],
-    githubLink: "https://github.com/airjlee/Monch",
+    githubLink: "https://github.com/airjlee/serenity",
   },
   {
     title: "Monch",
@@ -32,13 +32,19 @@ const projects: Project[] = [
       "Kubernetes",
       "Firebase",
     ],
-    githubLink: "https://github.com/airjlee/serenity",
+    githubLink: "https://github.com/airjlee/Monch",
   },
   {
     title: "Bankly",
     description: "Loan analysis automation application",
     technologies: ["AWS Bedrock", "Python", "React", "Javascript", "Amazon S3"],
     githubLink: "https://github.com/ledaniel0/bankly",
+  },
+  {
+    title: "Wedding Planner",
+    description: "Full-stack wedding planning application",
+    technologies: ["TypeScript", "HTML", "React", "Node.js", "Express"],
+    githubLink: "https://github.com/ledaniel0/wedding-planner",
   },
 ]
 
