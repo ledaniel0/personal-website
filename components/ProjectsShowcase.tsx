@@ -46,6 +46,12 @@ const projects: Project[] = [
     technologies: ["TypeScript", "HTML", "React", "Node.js", "Express"],
     githubLink: "https://github.com/ledaniel0/wedding-planner",
   },
+  {
+    title: "Double Pendulum",
+    description: "visualization project of a double pendulum system to demonstrate the system's behavior",
+    technologies: ["Python", "Matplotlib", "Numpy", "Scipy"],
+    githubLink: "https://github.com/ledaniel0/DoublePendulum",
+  },
 ]
 
 const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
