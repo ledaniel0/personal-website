@@ -44,11 +44,11 @@ const FloatingNav: React.FC = () => {
             Projects
           </a>
         </li>
-        <li>
+        {/* <li>
           <a href="#skills" className="text-white hover:text-blue-300 transition duration-300">
             Skills
           </a>
-        </li>
+        </li> */}
         <li>
           <a href="#contact" className="text-white hover:text-blue-300 transition duration-300">
             Contact
