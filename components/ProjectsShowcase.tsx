@@ -1,7 +1,8 @@
 "use client"
 
 import type React from "react"
-import { motion } from "framer-motion"
+import { motion, useInView, useScroll, useTransform } from "framer-motion"
+import { useRef } from "react"
 
 interface Project {
   title: string
@@ -54,41 +55,111 @@ const projects: Project[] = [
   },
 ]
 
-const ProjectCard: React.FC<{ project: Project }> = ({ project }) => {
+const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, index }) => {
+  const cardRef = useRef<HTMLDivElement>(null)
+  const isInView = useInView(cardRef, { once: false, amount: 0.3 })
+
+  // Parallax effect for cards
+  const { scrollYProgress } = useScroll({
+    target: cardRef,
+    offset: ["start end", "end start"],
+  })
+
+  const y = useTransform(scrollYProgress, [0, 1], [50, -50])
+
   return (
-    <motion.a
-      href={project.githubLink}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="block w-full sm:w-1/2 lg:w-1/3 p-4"
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
+    <motion.div
+      ref={cardRef}
+      className="w-full sm:w-1/2 lg:w-1/3 p-4"
+      style={{ y }}
+      initial={{ opacity: 0, y: 50 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+      transition={{
+        duration: 0.5,
+        delay: index * 0.1,
+        type: "spring",
+        stiffness: 50,
+      }}
     >
-      <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg h-full transition-colors duration-300 hover:bg-gray-700">
-        <div className="p-6">
-          <h3 className="text-2xl font-bold mb-2 gradient-text">{project.title}</h3>
-          <p className="text-gray-300 mb-4">{project.description}</p>
-          <div className="flex flex-wrap">
-            {project.technologies.map((tech, index) => (
-              <span key={index} className="bg-blue-600 text-white text-xs px-2 py-1 rounded-full mr-2 mb-2">
-                {tech}
-              </span>
-            ))}
+      <motion.a
+        href={project.githubLink}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block h-full"
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        <motion.div
+          className="bg-gray-800 rounded-lg overflow-hidden shadow-lg h-full transition-all duration-300"
+          whileHover={{
+            boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1)",
+            backgroundColor: "rgba(45, 55, 72, 1)",
+          }}
+        >
+          <div className="p-6">
+            <motion.h3
+              className="text-2xl font-bold mb-2 gradient-text"
+              initial={{ opacity: 0, x: -20 }}
+              animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+              transition={{ delay: 0.2 + index * 0.1 }}
+            >
+              {project.title}
+            </motion.h3>
+            <motion.p
+              className="text-gray-300 mb-4"
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+              transition={{ delay: 0.3 + index * 0.1 }}
+            >
+              {project.description}
+            </motion.p>
+            <motion.div
+              className="flex flex-wrap"
+              initial={{ opacity: 0 }}
+              animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+              transition={{ delay: 0.4 + index * 0.1 }}
+            >
+              {project.technologies.map((tech, techIndex) => (
+                <motion.span
+                  key={techIndex}
+                  className="bg-blue-600 text-white text-xs px-2 py-1 rounded-full mr-2 mb-2"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
+                  transition={{
+                    delay: 0.5 + index * 0.1 + techIndex * 0.05,
+                    type: "spring",
+                  }}
+                  whileHover={{ scale: 1.1 }}
+                >
+                  {tech}
+                </motion.span>
+              ))}
+            </motion.div>
           </div>
-        </div>
-      </div>
-    </motion.a>
+        </motion.div>
+      </motion.a>
+    </motion.div>
   )
 }
 
 const ProjectsShowcase: React.FC = () => {
+  const sectionRef = useRef<HTMLDivElement>(null)
+  const isInView = useInView(sectionRef, { once: false, amount: 0.2 })
+
   return (
-    <section className="py-20 bg-gray-900">
+    <section ref={sectionRef} className="py-20 bg-gray-900 overflow-hidden">
       <div className="container mx-auto px-4">
-        <h2 className="text-4xl font-bold mb-12 text-center gradient-text">Featured Projects</h2>
+        <motion.h2
+          className="text-4xl font-bold mb-12 text-center gradient-text"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.7 }}
+        >
+          Featured Projects
+        </motion.h2>
         <div className="flex flex-wrap -mx-4">
           {projects.map((project, index) => (
-            <ProjectCard key={index} project={project} />
+            <ProjectCard key={index} project={project} index={index} />
           ))}
         </div>
       </div>

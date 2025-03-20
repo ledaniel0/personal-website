@@ -6,10 +6,10 @@ import CustomCursor from "@/components/CustomCursor"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
-  title: "Daniel Le Personal Website",
+  title: "personal website",
   description:
-    "Explore the projects and skills of Daniel Le, a software engineer specializing in full-stack development, machine learning, and cloud technologies.",
-    generator: 'v0.dev'
+    "daniel le's personal website",
+    // generator: 'v0.dev'
 }
 
 export default function RootLayout({
