@@ -16,9 +16,9 @@ const timelineData: TimelineItem[] = [
   {
     date: "June 2025 - Sep 2025",
     title: "Software Development Engineer Intern",
-    company: "Amazon",
-    description: "Incoming SDE Intern at Amazon this Summer in Bellevue.",
-    link: "https://www.amazon.jobs"
+    company: "Salesforce",
+    description: "Incoming SDE Intern at Salesforce this Summer in Bellevue.",
+    link: "https://www.salesforce.com/"
   },
   {
     date: "Dec 2024 - Present",
@@ -33,7 +33,7 @@ const timelineData: TimelineItem[] = [
     title: "Software Developer",
     company: "University of Washington",
     description: "In March 2024, I began as a Software Developer at SEAL at the University of Washington.",
-    link: "https://www.washington.edu"
+    link: "https://www.uwseal.org/"
   },
   {
     date: "Mar 2024 - Nov 2024",
@@ -41,7 +41,7 @@ const timelineData: TimelineItem[] = [
     company: "University of Washington",
     description:
       "Started in March 2024 as a Research Assistant at DAIS at the University of Washington where I research machine learning protein modeling.",
-    link: "https://www.washington.edu"
+    link: "https://sites.google.com/uw.edu/dais-uw"
   },
   {
     date: "June 2023 - Aug 2023",
@@ -191,7 +191,7 @@ const Timeline: React.FC = () => {
   }
 
   return (
-    <section ref={sectionRef} className="py-20 bg-gray-900 overflow-hidden">
+    <section ref={sectionRef} className="py-20 bg-gray-900 overflow-hidden" id="timeline">
       <div className="container mx-auto px-4">
         <motion.h2
           className="text-4xl font-bold mb-16 text-center gradient-text"
