@@ -20,15 +20,10 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body className={`${inter.className} bg-gray-900 text-white`}>
-        <LoadingScreen />
         <CustomCursor />
         {children}
       </body>
     </html>
   )
 }
-
-
-
-import './globals.css'
-import LoadingScreen from "@/components/LoadingScreen"
+// duplicate globals import removed

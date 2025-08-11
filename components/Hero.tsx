@@ -66,19 +66,23 @@ const Hero: React.FC = () => {
   const linkedinScale = useSpring(1, springConfig)
   const instagramScale = useSpring(1, springConfig)
 
-  // Generate random positions for particles
-  const particles = Array.from({ length: 20 }).map((_, i) => ({
-    id: i,
-    initialX: Math.random() * windowSize.width,
-    initialY: Math.random() * windowSize.height,
-    opacity: Math.random() * 0.5 + 0.3,
-    duration: 10 + Math.random() * 20,
-    positions: [
-      [Math.random() * windowSize.width, Math.random() * windowSize.height],
-      [Math.random() * windowSize.width, Math.random() * windowSize.height],
-      [Math.random() * windowSize.width, Math.random() * windowSize.height],
-    ],
-  }))
+  // Generate particles with gentle, independent circular motion
+  const particles = Array.from({ length: 16 }).map((_, i) => {
+    const centerX = Math.random() * windowSize.width
+    const centerY = Math.random() * windowSize.height
+    const radius = 15 + Math.random() * 25 // 15-40px radius for gentle drift
+    const duration = 20 + Math.random() * 20 // 20-40 seconds for slow motion
+    
+    return {
+      id: i,
+      centerX,
+      centerY,
+      radius,
+      duration,
+      opacity: Math.random() * 0.3 + 0.15, // more subtle
+      delay: Math.random() * duration, // stagger start times
+    }
+  })
 
   return (
     <div
@@ -99,25 +103,38 @@ const Hero: React.FC = () => {
         }}
       />
 
-      {/* Floating particles */}
+      {/* Floating particles with gentle circular motion */}
       <div className="absolute inset-0 overflow-hidden">
         {particles.map((particle) => (
           <motion.div
             key={particle.id}
-            className="absolute w-2 h-2 rounded-full bg-blue-400"
-            initial={{
-              x: particle.initialX,
-              y: particle.initialY,
+            className="absolute w-1.5 h-1.5 rounded-full bg-blue-400"
+            style={{
+              left: particle.centerX,
+              top: particle.centerY,
               opacity: particle.opacity,
             }}
             animate={{
-              x: [particle.positions[0][0], particle.positions[1][0], particle.positions[2][0]],
-              y: [particle.positions[0][1], particle.positions[1][1], particle.positions[2][1]],
+              x: [
+                particle.radius * Math.cos(0),
+                particle.radius * Math.cos(Math.PI / 2),
+                particle.radius * Math.cos(Math.PI),
+                particle.radius * Math.cos(3 * Math.PI / 2),
+                particle.radius * Math.cos(2 * Math.PI),
+              ],
+              y: [
+                particle.radius * Math.sin(0),
+                particle.radius * Math.sin(Math.PI / 2),
+                particle.radius * Math.sin(Math.PI),
+                particle.radius * Math.sin(3 * Math.PI / 2),
+                particle.radius * Math.sin(2 * Math.PI),
+              ],
             }}
             transition={{
               duration: particle.duration,
               repeat: Number.POSITIVE_INFINITY,
               ease: "linear",
+              delay: particle.delay,
             }}
           />
         ))}
@@ -143,11 +160,7 @@ const Hero: React.FC = () => {
               stiffness: 100,
             }}
           >
-            <TypewriterText
-              text="Daniel Le"
-              delay={500}
-              speed={150} // Slower typing speed
-            />
+            <TypewriterText text="Daniel Le" delay={500} speed={150} />
           </motion.h1>
 
           <motion.div
@@ -172,11 +185,7 @@ const Hero: React.FC = () => {
             >
               cs student
             </motion.span>{" "}
-            <TypewriterText
-              text="@ the university of washington"
-              delay={2200} // Longer delay
-              speed={180} // Slower typing speed
-            />
+            <TypewriterText text="@ the university of washington" delay={2200} speed={180} />
           </motion.div>
 
           <motion.div
@@ -194,15 +203,13 @@ const Hero: React.FC = () => {
               onHoverStart={() => githubScale.set(1.3)}
               onHoverEnd={() => githubScale.set(1)}
               style={{ scale: githubScale }}
-              animate={{
-                y: [0, -6, 0],
-              }}
+              animate={{ y: [0, -6, 0] }}
               transition={{
                 duration: 2.5,
                 repeat: Number.POSITIVE_INFINITY,
                 ease: "easeInOut",
                 repeatType: "reverse",
-                delay: 0, // Stagger the animations
+                delay: 0,
               }}
             >
               <Github size={28} />
@@ -217,15 +224,13 @@ const Hero: React.FC = () => {
               onHoverStart={() => linkedinScale.set(1.3)}
               onHoverEnd={() => linkedinScale.set(1)}
               style={{ scale: linkedinScale }}
-              animate={{
-                y: [0, -6, 0],
-              }}
+              animate={{ y: [0, -6, 0] }}
               transition={{
                 duration: 2.5,
                 repeat: Number.POSITIVE_INFINITY,
                 ease: "easeInOut",
                 repeatType: "reverse",
-                delay: 0.8, // Stagger the animations
+                delay: 0.8,
               }}
             >
               <Linkedin size={28} />
@@ -240,15 +245,13 @@ const Hero: React.FC = () => {
               onHoverStart={() => instagramScale.set(1.3)}
               onHoverEnd={() => instagramScale.set(1)}
               style={{ scale: instagramScale }}
-              animate={{
-                y: [0, -6, 0],
-              }}
+              animate={{ y: [0, -6, 0] }}
               transition={{
                 duration: 2.5,
                 repeat: Number.POSITIVE_INFINITY,
                 ease: "easeInOut",
                 repeatType: "reverse",
-                delay: 1.6, // Stagger the animations
+                delay: 1.6,
               }}
             >
               <Instagram size={28} />

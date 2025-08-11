@@ -2,6 +2,7 @@
 
 import type React from "react"
 import { motion, useInView, useScroll, useTransform } from "framer-motion"
+import Image from "next/image"
 import { useRef } from "react"
 
 interface Project {
@@ -9,6 +10,7 @@ interface Project {
   description: string
   technologies: string[]
   githubLink: string
+  image?: string
 }
 
 const projects: Project[] = [
@@ -90,15 +92,14 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
         whileTap={{ scale: 0.95 }}
       >
         <motion.div
-          className="bg-gray-800 rounded-lg overflow-hidden shadow-lg h-full transition-all duration-300"
-          whileHover={{
-            boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1)",
-            backgroundColor: "rgba(45, 55, 72, 1)",
-          }}
+          className="bg-gray-800/70 border border-white/10 rounded-2xl overflow-hidden h-full transition-all duration-200 hover:bg-gray-800/80"
         >
-          <div className="p-6">
+          <div className="relative h-40">
+            <Image src={project.image || "/placeholder.jpg"} alt="" fill className="object-cover" />
+          </div>
+          <div className="p-5">
             <motion.h3
-              className="text-2xl font-bold mb-2 gradient-text"
+              className="text-xl font-semibold mb-1"
               initial={{ opacity: 0, x: -20 }}
               animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
               transition={{ delay: 0.2 + index * 0.1 }}
@@ -106,7 +107,7 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
               {project.title}
             </motion.h3>
             <motion.p
-              className="text-gray-300 mb-4"
+              className="text-white/70 mb-3 text-sm"
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 1 } : { opacity: 0 }}
               transition={{ delay: 0.3 + index * 0.1 }}
@@ -114,27 +115,20 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
               {project.description}
             </motion.p>
             <motion.div
-              className="flex flex-wrap"
+              className="flex flex-wrap gap-2"
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 1 } : { opacity: 0 }}
               transition={{ delay: 0.4 + index * 0.1 }}
             >
-              {project.technologies.map((tech, techIndex) => (
-                <motion.span
-                  key={techIndex}
-                  className="bg-blue-600 text-white text-xs px-2 py-1 rounded-full mr-2 mb-2"
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
-                  transition={{
-                    delay: 0.5 + index * 0.1 + techIndex * 0.05,
-                    type: "spring",
-                  }}
-                  whileHover={{ scale: 1.1 }}
-                >
+              {project.technologies.slice(0, 3).map((tech, techIndex) => (
+                <span key={techIndex} className="rounded-full border border-white/10 px-2 py-0.5 text-xs text-white/70">
                   {tech}
-                </motion.span>
+                </span>
               ))}
             </motion.div>
+            <div className="mt-4">
+              <span className="inline-flex items-center gap-2 text-sm text-blue-300">View code →</span>
+            </div>
           </div>
         </motion.div>
       </motion.a>

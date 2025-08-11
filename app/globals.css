@@ -10,7 +10,18 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+  background: radial-gradient(
+      1200px 600px at 20% 10%,
+      rgba(99, 102, 241, 0.12),
+      transparent 40%
+    ),
+    radial-gradient(
+      1000px 500px at 80% 20%,
+      rgba(59, 130, 246, 0.1),
+      transparent 50%
+    ),
+    linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb)))
+      rgb(var(--background-start-rgb));
   font-family: "Inter", sans-serif;
 }
 
@@ -58,4 +69,3 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #718096;
 }
-
