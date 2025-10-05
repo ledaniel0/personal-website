@@ -6,6 +6,7 @@ import { motion, useScroll, useSpring } from "framer-motion"
 
 const sections = [
   { id: "hero", label: "Home" },
+  { id: "about", label: "About" },
   { id: "timeline", label: "Experience" },
   { id: "projects", label: "Projects" },
 ]
@@ -37,7 +38,6 @@ const TopNav: React.FC = () => {
     <header className="fixed top-0 inset-x-0 z-40">
       <div className="mx-auto max-w-7xl px-4">
         <nav className="mt-4 flex items-center justify-between rounded-xl border border-white/10 bg-gray-900/60 px-4 py-2 backdrop-blur-md">
-
           <ul className="hidden md:flex items-center gap-1">
             {sections.map((s) => (
               <li key={s.id}>
@@ -71,4 +71,3 @@ const TopNav: React.FC = () => {
 }
 
 export default TopNav
-

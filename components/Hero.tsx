@@ -1,6 +1,6 @@
 "use client"
 import type React from "react"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState, useMemo } from "react"
 import { motion, useScroll, useTransform, useSpring } from "framer-motion"
 import { useRouter } from "next/navigation"
 import { Github, Linkedin, Instagram, ChevronDown } from "lucide-react"
@@ -67,22 +67,26 @@ const Hero: React.FC = () => {
   const instagramScale = useSpring(1, springConfig)
 
   // Generate particles with gentle, independent circular motion
-  const particles = Array.from({ length: 16 }).map((_, i) => {
-    const centerX = Math.random() * windowSize.width
-    const centerY = Math.random() * windowSize.height
-    const radius = 15 + Math.random() * 25 // 15-40px radius for gentle drift
-    const duration = 20 + Math.random() * 20 // 20-40 seconds for slow motion
-    
-    return {
-      id: i,
-      centerX,
-      centerY,
-      radius,
-      duration,
-      opacity: Math.random() * 0.3 + 0.15, // more subtle
-      delay: Math.random() * duration, // stagger start times
-    }
-  })
+  const particles = useMemo(() => {
+    return Array.from({ length: 16 }).map((_, i) => {
+      const centerX = Math.random() * windowSize.width
+      const centerY = Math.random() * windowSize.height
+      const radius = 100 + Math.random() * 100 // 100-200px radius for gentle drift
+      const duration = 20 + Math.random() * 20 // 20-40 seconds for slow motion
+      const startAngle = Math.random() * Math.PI * 2 // Random starting angle between 0 and 2π
+      
+      return {
+        id: i,
+        centerX,
+        centerY,
+        radius,
+        duration,
+        startAngle,
+        opacity: Math.random() * 0.3 + 0.15, // more subtle
+        delay: 0, // stagger start times
+      }
+    })
+  }, [windowSize.width, windowSize.height])
 
   return (
     <div
@@ -108,7 +112,7 @@ const Hero: React.FC = () => {
         {particles.map((particle) => (
           <motion.div
             key={particle.id}
-            className="absolute w-1.5 h-1.5 rounded-full bg-blue-400"
+            className="absolute w-4 h-4 rounded-full bg-blue-400"
             style={{
               left: particle.centerX,
               top: particle.centerY,
@@ -116,18 +120,18 @@ const Hero: React.FC = () => {
             }}
             animate={{
               x: [
-                particle.radius * Math.cos(0),
-                particle.radius * Math.cos(Math.PI / 2),
-                particle.radius * Math.cos(Math.PI),
-                particle.radius * Math.cos(3 * Math.PI / 2),
-                particle.radius * Math.cos(2 * Math.PI),
+                particle.radius * Math.cos(particle.startAngle),
+                particle.radius * Math.cos(particle.startAngle + Math.PI / 2),
+                particle.radius * Math.cos(particle.startAngle + Math.PI),
+                particle.radius * Math.cos(particle.startAngle + 3 * Math.PI / 2),
+                particle.radius * Math.cos(particle.startAngle + 2 * Math.PI),
               ],
               y: [
-                particle.radius * Math.sin(0),
-                particle.radius * Math.sin(Math.PI / 2),
-                particle.radius * Math.sin(Math.PI),
-                particle.radius * Math.sin(3 * Math.PI / 2),
-                particle.radius * Math.sin(2 * Math.PI),
+                particle.radius * Math.sin(particle.startAngle),
+                particle.radius * Math.sin(particle.startAngle + Math.PI / 2),
+                particle.radius * Math.sin(particle.startAngle + Math.PI),
+                particle.radius * Math.sin(particle.startAngle + 3 * Math.PI / 2),
+                particle.radius * Math.sin(particle.startAngle + 2 * Math.PI),
               ],
             }}
             transition={{
@@ -173,19 +177,12 @@ const Hero: React.FC = () => {
               type: "spring",
             }}
           >
-            <motion.span
-              animate={{ y: [0, -5, 0] }}
-              transition={{
-                duration: 2,
-                repeat: Number.POSITIVE_INFINITY,
-                ease: "easeInOut",
-                repeatType: "reverse",
-              }}
-              className="inline-block"
-            >
-              cs student
-            </motion.span>{" "}
-            <TypewriterText text="@ the university of washington" delay={2200} speed={180} />
+            <TypewriterText
+              text="cs student @ the university of washington"
+              delay={1100}
+              speed={130}
+              className=""
+            />
           </motion.div>
 
           <motion.div

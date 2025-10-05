@@ -3,6 +3,7 @@
 import type React from "react"
 import { useMemo, useRef, useState } from "react"
 import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion"
+import { prefersReducedMotion } from "@/lib/motion"
 
 type Experience = {
   date: string
@@ -17,37 +18,37 @@ const EXPERIENCES: Experience[] = [
     date: "Sep 2025 - Dec 2025",
     title: "Software Development Engineer Intern",
     company: "Amazon",
-    description: "Software Development Engineer Intern at Amazon in Summer of 2025 in Bellevue, WA.",
+    description: "Software Development Engineer Intern at Amazon on the Worldwide Returns & ReCommerce team in Fall of 2025 in Bellevue, WA.",
     link: "https://www.amazon.com/",
   },
   {
     date: "June 2025 - Sep 2025",
     title: "Software Engineer Intern",
     company: "Salesforce",
-    description: "Software Engineer Intern at Salesforce in Summer of 2025 in Bellevue, WA.",
+    description: "Software Engineer Intern at Salesforce on the Metadata Services Team in the Data Cloud org in Summer of 2025 in Bellevue, WA.",
     link: "https://www.salesforce.com/",
   },
   {
     date: "Dec 2024 - June 2025",
-    title: "Project Member",
+    title: "Fellow",
     company: "DubHacks Next",
     description:
       "Selected to a UW startup incubator program where I am a part of a cohort of entrepreneurial-minded students.",
     link: "https://dubhacks.com",
   },
   {
-    date: "Mar 2024 - Present",
+    date: "Mar 2024 - May 2025",
     title: "Software Developer",
-    company: "University of Washington",
+    company: "Sensors, Energy, and Automation Lab",
     description: "In March 2024, I began as a Software Developer at SEAL at the University of Washington.",
     link: "https://www.uwseal.org/",
   },
   {
     date: "Mar 2024 - Nov 2024",
     title: "Machine Learning Research Assistant",
-    company: "University of Washington",
+    company: "Data Analysis & Intelligent Systems Lab",
     description:
-      "Started in March 2024 as a Research Assistant at DAIS at the University of Washington where I research machine learning protein modeling.",
+      "Started in March 2024 as a Research Assistant at DAIS at the University of Washington where I optimized protein modeling ML models.",
     link: "https://sites.google.com/uw.edu/dais-uw",
   },
   {
@@ -97,17 +98,19 @@ const TimelineScene: React.FC = () => {
     setActiveIndex(closestIndex)
   })
 
-  // Camera motion - zoomed out view with gentle vertical movement
-  const cameraX = useTransform(scrollYProgress, [0, 1], ["0%", "0%"])
-  const cameraY = useTransform(scrollYProgress, [0, 1], ["0%", "-40%"])
-  const cameraScale = useTransform(scrollYProgress, [0, 1], [0.6, 0.8])
+  // Camera motion - zoomed out view with controlled vertical pan across entire scene height
+  const cameraScale = useTransform(scrollYProgress, [0, 1], [0.8, 0.8])
+  // Pan the scene by the extra height beyond the viewport: 250vh - 100vh = 150vh
+  const sceneY = useTransform(scrollYProgress, [0, 1], ["0vh", "-150vh"])
+  // Horizontal offset to move timeline left
+  const sceneX = "-5vw" // Adjust this value: more negative = further left 
 
   return (
     <section ref={wrapperRef} className="relative h-[500vh] bg-gray-950" id="timeline">
       <div className="sticky top-0 h-screen overflow-hidden">
         {/* Right-side scene */}
-        <motion.div style={{ x: cameraX, y: cameraY, scale: cameraScale }} className="absolute inset-0">
-          <svg className="w-[160vw] h-[250vh]" viewBox="0 0 1600 2500">
+        <div className="absolute inset-0">
+          <motion.svg className="w-[160vw] h-[250vh]" viewBox="0 0 1600 2500" style={{ x: sceneX, y: sceneY, scale: cameraScale }}>
             <defs>
               <linearGradient id="trail" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="#60a5fa" />
@@ -120,6 +123,23 @@ const TimelineScene: React.FC = () => {
                   <feMergeNode in="SourceGraphic" />
                 </feMerge>
               </filter>
+              <filter id="nodeGlow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="4" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+              <radialGradient id="nodeGradient" cx="0.3" cy="0.3" r="0.8">
+                <stop offset="0%" stopColor="#ffffff" stopOpacity="0.9" />
+                <stop offset="30%" stopColor="#60a5fa" stopOpacity="0.8" />
+                <stop offset="100%" stopColor="#1e40af" stopOpacity="0.9" />
+              </radialGradient>
+              <radialGradient id="nodeRing" cx="0.5" cy="0.5" r="1">
+                <stop offset="70%" stopColor="transparent" />
+                <stop offset="85%" stopColor="#60a5fa" stopOpacity="0.6" />
+                <stop offset="100%" stopColor="transparent" />
+              </radialGradient>
             </defs>
 
             <motion.path
@@ -128,22 +148,85 @@ const TimelineScene: React.FC = () => {
               strokeWidth="8"
               filter="url(#glow)"
               fill="none"
-              style={{ pathLength: scrollYProgress }}
+              style={{ pathLength: prefersReducedMotion() ? 1 : scrollYProgress }}
               strokeLinecap="round"
             />
 
-            {thresholds.map((t, i) => (
-              <motion.circle
-                key={i}
-                r={12}
-                cx={800}
-                cy={150 + i * 350}
-                fill="#93c5fd"
-                style={{ opacity: useTransform(scrollYProgress, [t - 0.03, t, t + 0.03], [0.2, 1, 0.4]) }}
-              />
-            ))}
-          </svg>
-        </motion.div>
+            {thresholds.map((t, i) => {
+              const isActive = useTransform(scrollYProgress, [t - 0.05, t, t + 0.05], [0, 1, 0])
+              const nodeScale = useTransform(scrollYProgress, [t - 0.03, t, t + 0.03], [0.8, 1.2, 1])
+              
+              return (
+                <g key={i}>
+                  {/* Outer ring for active state */}
+                  <motion.circle
+                    r={24}
+                    cx={800}
+                    cy={140 + i * 380}
+                    fill="url(#nodeRing)"
+                    style={{ 
+                      opacity: useTransform(scrollYProgress, [t - 0.03, t, t + 0.03], [0, 0.8, 0]),
+                      scale: useTransform(scrollYProgress, [t - 0.03, t, t + 0.03], [0.5, 1, 0.5])
+                    }}
+                  />
+                  
+                  {/* Main node */}
+                  <motion.circle
+                    r={16}
+                    cx={800}
+                    cy={140 + i * 380}
+                    fill="url(#nodeGradient)"
+                    filter="url(#nodeGlow)"
+                    style={{ 
+                      opacity: useTransform(scrollYProgress, [t - 0.03, t, t + 0.03], [0.3, 1, 0.6]),
+                      scale: nodeScale
+                    }}
+                  />
+                  
+                  {/* Inner highlight */}
+                  <motion.circle
+                    r={6}
+                    cx={794}
+                    cy={134 + i * 380}
+                    fill="#ffffff"
+                    style={{ 
+                      opacity: useTransform(scrollYProgress, [t - 0.03, t, t + 0.03], [0.1, 0.7, 0.3]),
+                      scale: nodeScale
+                    }}
+                  />
+                  
+                  {/* Pulse effect */}
+                  <motion.circle
+                    r={16}
+                    cx={800}
+                    cy={140 + i * 380}
+                    fill="none"
+                    stroke="#60a5fa"
+                    strokeWidth="2"
+                    strokeOpacity="0.6"
+                    style={{ 
+                      opacity: useTransform(scrollYProgress, [t - 0.03, t, t + 0.03], [0, 1, 0]),
+                      scale: useTransform(scrollYProgress, [t - 0.02, t + 0.02], [1, 2.5])
+                    }}
+                  />
+                  
+                  <motion.text
+                    x={830}
+                    y={140 + i * 380 + 8}
+                    className="fill-white/90 text-lg font-semibold"
+                    initial={{ opacity: 0, x: 10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    style={{ 
+                      opacity: useTransform(scrollYProgress, [t - 0.05, t, t + 0.1], [0.4, 1, 0.7])
+                    }}
+                  >
+                    {EXPERIENCES[i].company}
+                  </motion.text>
+                </g>
+              )
+            })}
+          </motion.svg>
+        </div>
 
         {/* Left-side pinned panel with active experience */}
         <div className="absolute inset-y-0 left-0 z-20 w-full md:w-[38%] px-4 md:px-8 py-6 md:py-10 pointer-events-none">
