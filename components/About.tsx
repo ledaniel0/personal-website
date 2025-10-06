@@ -8,17 +8,17 @@ import { motion } from "framer-motion"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 
 const images = [
-  "/376A5487.jpg",
-  "/12D28B00-0DF8-4691-8625-B1619D1690F0.jpg",
-  "/IMG_0118.JPG",
-  "/IMG_0220.jpg",
-  "/IMG_1689.jpg",
-  "/IMG_3865.JPG",
-  "/IMG_4627.PNG",
-  "/IMG_5454.JPG",
-  "/IMG_7478.PNG",
-  "/IMG_7736.PNG",
-  "/RenderedImage.jpg",
+  "376A5487.jpg",
+  "12D28B00-0DF8-4691-8625-B1619D1690F0.jpg",
+  "IMG_0118.JPG",
+  "IMG_0220.jpg",
+  "IMG_1689.jpg",
+  "IMG_3865.JPG",
+  "IMG_4627.PNG",
+  "IMG_5454.JPG",
+  "IMG_7478.PNG",
+  "IMG_7736.PNG",
+  "RenderedImage.jpg",
 ]
 
 export default function About() {
