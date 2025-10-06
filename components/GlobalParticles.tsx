@@ -38,9 +38,9 @@ const GlobalParticles: React.FC = () => {
   // Generate three layers of particles with different parallax speeds
   const particleLayers = useMemo(() => {
     const layers = [
-      { speed: 0.3, count: 25, size: 5, opacity: 0.2 }, // Far layer - slow
-      { speed: 0.6, count: 20, size: 5, opacity: 0.25 },   // Mid layer - medium
-      { speed: 0.9, count: 15, size: 5, opacity: 0.3 },  // Near layer - fast
+      { speed: 0.3, count: 25, size: 7, opacity: 0.2 }, // Far layer - slow
+      { speed: 0.6, count: 20, size: 7, opacity: 0.25 },   // Mid layer - medium
+      { speed: 0.9, count: 15, size: 7, opacity: 0.3 },  // Near layer - fast
     ]
 
     return layers.map((layer, layerIndex) => ({
@@ -49,8 +49,8 @@ const GlobalParticles: React.FC = () => {
       particles: Array.from({ length: layer.count }).map((_, i) => {
         const centerX = Math.random() * windowWidth
         const centerY = Math.random() * pageHeight
-        const radius = 30 + Math.random() * 40 // 30-70px orbit
-        const duration = 35 + Math.random() * 25 // 35-60 seconds
+        const radius = 50 + Math.random() * 80 // Increased from 30-70 to 50-130px orbit
+        const duration = 20 + Math.random() * 20 // Decreased from 35-60 to 20-40 seconds (faster)
         const startAngle = Math.random() * Math.PI * 2
         
         return {

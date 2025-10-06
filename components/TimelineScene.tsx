@@ -112,7 +112,7 @@ const TimelineScene: React.FC = () => {
   // Pan the scene by the extra height beyond the viewport: 250vh - 100vh = 150vh
   const sceneY = useTransform(scrollYProgress, [0, 1], ["0vh", "-150vh"])
   // Horizontal offset to move timeline left
-  const sceneX = "-5vw" // Adjust this value: more negative = further left 
+  const sceneX = "-8vw" // Moved from -5vw to -8vw (more to the left)
 
   return (
     <section ref={wrapperRef} className="relative h-[500vh]" id="timeline">

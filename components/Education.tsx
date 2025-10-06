@@ -58,63 +58,62 @@ export default function Education() {
         
         <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Left Column: Education Info */}
-          <div className="space-y-3">
-            {/* Combined University Block with Stats */}
+          <div className="space-y-4">
+            {/* University Block - Larger */}
             <motion.div 
-              className="block"
+              className="block py-6"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4 }}
             >
-              <div className="flex items-start gap-4 mb-4">
+              <div className="flex items-start gap-5">
                 {/* University Logo - Larger */}
-                <div className="flex-shrink-0 w-20 h-20 relative rounded-lg overflow-hidden bg-white/5">
+                <div className="flex-shrink-0 w-28 h-28 relative">
                   <Image
                     src="uwseal.png"
                     alt="University of Washington Logo"
                     fill
-                    className="object-contain p-2.5"
+                    className="object-contain"
                   />
                 </div>
                 {/* University Info */}
-                <div className="flex-1">
-                  <div className="text-xs text-theme-text-tertiary mb-1">2023 - 2027</div>
-                  <h3 className="text-xl font-semibold mb-0.5">University of Washington</h3>
-                  <p className="text-sm text-theme-text-secondary">BS Computer Science</p>
-                  <p className="text-xs text-theme-text-secondary mt-0.5">Seattle, WA</p>
-                  <div className="flex gap-4 mt-2">
-                    <div className="text-xs">
-                      <span className="font-medium text-theme-accent-purple">Junior</span>
-                    </div>
+                <div className="flex-1 pt-2">
+                  <div className="text-sm text-theme-text-tertiary mb-2">2023 - 2027</div>
+                  <h3 className="text-2xl font-semibold mb-1.5">University of Washington</h3>
+                  <p className="text-base text-theme-text-secondary mb-3">BS Computer Science</p>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-medium text-theme-accent-purple">Junior</span>
+                    <span className="text-sm text-theme-text-tertiary">•</span>
+                    <span className="text-sm text-theme-text-secondary">Seattle, WA</span>
                   </div>
                 </div>
               </div>
             </motion.div>
 
-            {/* High School - Compact */}
+            {/* High School Block - Larger */}
             <motion.div 
-              className="block"
+              className="block py-6"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: 0.1 }}
             >
-              <div className="flex items-center gap-3">
-                {/* High School Logo - Medium size */}
-                <div className="flex-shrink-0 w-14 h-14 relative rounded-lg overflow-hidden bg-white/5">
+              <div className="flex items-start gap-5">
+                {/* High School Logo - Larger */}
+                <div className="flex-shrink-0 w-24 h-24 relative">
                   <Image
                     src="kamiakseal.png"
                     alt="Kamiak High School Logo"
                     fill
-                    className="object-contain p-2"
+                    className="object-contain"
                   />
                 </div>
                 {/* High School Info */}
-                <div className="flex-1">
-                  <div className="text-xs text-theme-text-tertiary">2019 - 2023</div>
-                  <div className="font-medium">Kamiak High School</div>
-                  <p className="text-xs text-theme-text-secondary">Mukilteo, WA</p>
+                <div className="flex-1 pt-2">
+                  <div className="text-sm text-theme-text-tertiary mb-2">2019 - 2023</div>
+                  <div className="text-xl font-semibold mb-1">Kamiak High School</div>
+                  <p className="text-sm text-theme-text-secondary">Mukilteo, WA</p>
                 </div>
               </div>
             </motion.div>

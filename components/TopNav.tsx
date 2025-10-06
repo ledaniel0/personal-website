@@ -19,29 +19,30 @@ const TopNav: React.FC = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      // Check which section's top is closest to crossing the 100px threshold
-      // We want the section whose top is highest on screen but still below 100px,
-      // or if multiple sections have crossed, the one that crossed most recently (highest top value)
-      let currentSection = "hero"
-      let bestTop = -Infinity
+      // Get current scroll position with an offset for the fixed nav
+      const scrollPosition = window.scrollY + 150
       
-      for (const s of sections) {
-        const el = document.getElementById(s.id)
+      // Check each section from bottom to top
+      // The last section whose top we've scrolled past is the active one
+      let currentSection = "hero"
+      
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = sections[i]
+        const el = document.getElementById(section.id)
         if (!el) continue
-        const rect = el.getBoundingClientRect()
         
-        // If section's top is above or at the threshold (100px) and bottom is below it
-        if (rect.top <= 100 && rect.bottom > 100) {
-          // Pick the section with the highest top value (most recently crossed the threshold)
-          if (rect.top > bestTop) {
-            bestTop = rect.top
-            currentSection = s.id
-          }
+        const sectionTop = el.offsetTop
+        
+        // If we've scrolled past this section's top, it's the active one
+        if (scrollPosition >= sectionTop) {
+          currentSection = section.id
+          break
         }
       }
       
       setActive(currentSection)
     }
+    
     window.addEventListener("scroll", handleScroll)
     handleScroll()
     return () => window.removeEventListener("scroll", handleScroll)
