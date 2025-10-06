@@ -82,6 +82,7 @@ export default function Education() {
                   <div className="text-xs text-theme-text-tertiary mb-1">2023 - 2027</div>
                   <h3 className="text-xl font-semibold mb-0.5">University of Washington</h3>
                   <p className="text-sm text-theme-text-secondary">BS Computer Science</p>
+                  <p className="text-xs text-theme-text-secondary mt-0.5">Seattle, WA</p>
                   <div className="flex gap-4 mt-2">
                     <div className="text-xs">
                       <span className="font-medium text-theme-accent-purple">Junior</span>
