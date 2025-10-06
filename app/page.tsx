@@ -3,22 +3,19 @@ import Hero from "@/components/Hero"
 import TimelineScene from "@/components/TimelineScene"
 import ProjectsShowcase from "@/components/ProjectsShowcase"
 import TopNav from "@/components/TopNav"
-import About from "@/components/About"
+import Education from "@/components/Education"
 
 export default function Home() {
   return (
-    <main>
+    <main className="relative z-10">
       <TopNav />
       <section id="hero">
         <Hero />
       </section>
-      <About />
+      <Education />
       <TimelineScene />
-      <section id="projects">
-        <ProjectsShowcase />
-      </section>
+      <ProjectsShowcase />
       {/* Contact section removed */}
     </main>
   )
 }
-

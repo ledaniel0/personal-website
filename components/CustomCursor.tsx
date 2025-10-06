@@ -38,7 +38,7 @@ const CustomCursor: React.FC = () => {
 
     const animate = () => {
       // Lerp ring towards target for smooth trailing motion
-      const lerpFactor = 0.12
+      const lerpFactor = 0.08
       ringXRef.current = ringXRef.current + (targetXRef.current - ringXRef.current) * lerpFactor
       ringYRef.current = ringYRef.current + (targetYRef.current - ringYRef.current) * lerpFactor
       setRingPos({ x: ringXRef.current, y: ringYRef.current })
@@ -68,10 +68,10 @@ const CustomCursor: React.FC = () => {
       {/* Trailing ring */}
       <div
         style={{
-          transform: `translate(${ringPos.x - 12}px, ${ringPos.y - 12}px)`,
-          opacity: isVisible ? 0.35 : 0,
+          transform: `translate(${ringPos.x - 10}px, ${ringPos.y - 10}px)`,
+          opacity: isVisible ? 0.2 : 0,
         }}
-        className="absolute w-6 h-6 rounded-full border border-white/60"
+        className="absolute w-5 h-5 rounded-full border border-white/40"
       />
     </div>
   )

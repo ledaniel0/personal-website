@@ -11,6 +11,34 @@ const config: Config = {
   theme: {
   	extend: {
   		colors: {
+  			theme: {
+  				bg: {
+  					primary: '#191919',
+  					secondary: '#2f2f2f',
+  					tertiary: '#37352f',
+  				},
+  				surface: {
+  					base: 'rgba(255, 255, 255, 0.03)',
+  					hover: 'rgba(255, 255, 255, 0.05)',
+  					active: 'rgba(255, 255, 255, 0.07)',
+  				},
+  				border: {
+  					subtle: 'rgba(255, 255, 255, 0.09)',
+  					medium: 'rgba(255, 255, 255, 0.12)',
+  					strong: 'rgba(255, 255, 255, 0.15)',
+  				},
+  				text: {
+  					primary: '#e9e9e7',
+  					secondary: 'rgba(255, 255, 255, 0.65)',
+  					tertiary: 'rgba(255, 255, 255, 0.45)',
+  				},
+  				accent: {
+  					blue: '#5B8DEF',
+  					purple: '#9B6DD6',
+  					'blue-bg': 'rgba(91, 141, 239, 0.1)',
+  					'purple-bg': 'rgba(155, 109, 214, 0.1)',
+  				},
+  			},
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {

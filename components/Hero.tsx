@@ -1,6 +1,6 @@
 "use client"
 import type React from "react"
-import { useEffect, useRef, useState, useMemo } from "react"
+import { useRef } from "react"
 import { motion, useScroll, useTransform, useSpring } from "framer-motion"
 import { useRouter } from "next/navigation"
 import { Github, Linkedin, Instagram, ChevronDown } from "lucide-react"
@@ -9,11 +9,6 @@ import TypewriterText from "./TypewriterText"
 const Hero: React.FC = () => {
   const router = useRouter()
   const containerRef = useRef<HTMLDivElement>(null)
-  const [mousePosition, setMousePosition] = useState({ x: 0.5, y: 0.5 })
-  const [windowSize, setWindowSize] = useState({
-    width: typeof window !== "undefined" ? window.innerWidth : 1200,
-    height: typeof window !== "undefined" ? window.innerHeight : 800,
-  })
 
   // Parallax effect for background elements
   const { scrollYProgress } = useScroll({
@@ -23,32 +18,6 @@ const Hero: React.FC = () => {
 
   const y = useTransform(scrollYProgress, [0, 1], [0, 300])
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
-
-  // Interactive gradient background
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      const { clientX, clientY } = e
-      setMousePosition({
-        x: clientX / window.innerWidth,
-        y: clientY / window.innerHeight,
-      })
-    }
-
-    const handleResize = () => {
-      setWindowSize({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      })
-    }
-
-    window.addEventListener("mousemove", handleMouseMove)
-    window.addEventListener("resize", handleResize)
-
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove)
-      window.removeEventListener("resize", handleResize)
-    }
-  }, [])
 
   // Smooth scroll to timeline section
   const handleExploreClick = () => {
@@ -66,36 +35,10 @@ const Hero: React.FC = () => {
   const linkedinScale = useSpring(1, springConfig)
   const instagramScale = useSpring(1, springConfig)
 
-  // Generate particles with gentle, independent circular motion
-  const particles = useMemo(() => {
-    return Array.from({ length: 16 }).map((_, i) => {
-      const centerX = Math.random() * windowSize.width
-      const centerY = Math.random() * windowSize.height
-      const radius = 100 + Math.random() * 100 // 100-200px radius for gentle drift
-      const duration = 20 + Math.random() * 20 // 20-40 seconds for slow motion
-      const startAngle = Math.random() * Math.PI * 2 // Random starting angle between 0 and 2π
-      
-      return {
-        id: i,
-        centerX,
-        centerY,
-        radius,
-        duration,
-        startAngle,
-        opacity: Math.random() * 0.3 + 0.15, // more subtle
-        delay: 0, // stagger start times
-      }
-    })
-  }, [windowSize.width, windowSize.height])
-
   return (
     <div
       ref={containerRef}
       className="relative h-screen overflow-hidden"
-      style={{
-        background: `radial-gradient(circle at ${mousePosition.x * 100}% ${mousePosition.y * 100}%, rgba(59, 130, 246, 0.3), rgba(139, 92, 246, 0.3), rgba(30, 41, 59, 0.8))`,
-        backgroundSize: "200% 200%",
-      }}
     >
       {/* Animated grid background */}
       <motion.div
@@ -107,43 +50,6 @@ const Hero: React.FC = () => {
         }}
       />
 
-      {/* Floating particles with gentle circular motion */}
-      <div className="absolute inset-0 overflow-hidden">
-        {particles.map((particle) => (
-          <motion.div
-            key={particle.id}
-            className="absolute w-4 h-4 rounded-full bg-blue-400"
-            style={{
-              left: particle.centerX,
-              top: particle.centerY,
-              opacity: particle.opacity,
-            }}
-            animate={{
-              x: [
-                particle.radius * Math.cos(particle.startAngle),
-                particle.radius * Math.cos(particle.startAngle + Math.PI / 2),
-                particle.radius * Math.cos(particle.startAngle + Math.PI),
-                particle.radius * Math.cos(particle.startAngle + 3 * Math.PI / 2),
-                particle.radius * Math.cos(particle.startAngle + 2 * Math.PI),
-              ],
-              y: [
-                particle.radius * Math.sin(particle.startAngle),
-                particle.radius * Math.sin(particle.startAngle + Math.PI / 2),
-                particle.radius * Math.sin(particle.startAngle + Math.PI),
-                particle.radius * Math.sin(particle.startAngle + 3 * Math.PI / 2),
-                particle.radius * Math.sin(particle.startAngle + 2 * Math.PI),
-              ],
-            }}
-            transition={{
-              duration: particle.duration,
-              repeat: Number.POSITIVE_INFINITY,
-              ease: "linear",
-              delay: particle.delay,
-            }}
-          />
-        ))}
-      </div>
-
       <motion.div
         className="relative h-full flex items-center justify-center"
         style={{ opacity }}
@@ -153,7 +59,7 @@ const Hero: React.FC = () => {
       >
         <div className="text-center px-4 z-10">
           <motion.h1
-            className="text-5xl md:text-7xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-500 to-blue-500"
+            className="text-5xl md:text-6xl font-semibold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400"
             style={{ backgroundSize: "200% 200%" }}
             initial={{ y: -50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -164,7 +70,7 @@ const Hero: React.FC = () => {
               stiffness: 100,
             }}
           >
-            <TypewriterText text="Daniel Le" delay={500} speed={150} />
+            <TypewriterText text="DANIEL LE" delay={500} speed={150} />
           </motion.h1>
 
           <motion.div

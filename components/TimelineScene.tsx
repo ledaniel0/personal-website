@@ -4,11 +4,13 @@ import type React from "react"
 import { useMemo, useRef, useState } from "react"
 import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion"
 import { prefersReducedMotion } from "@/lib/motion"
+import Image from "next/image"
 
 type Experience = {
   date: string
   title: string
   company: string
+  logo: string
   description: string
   link?: string
 }
@@ -18,6 +20,7 @@ const EXPERIENCES: Experience[] = [
     date: "Sep 2025 - Dec 2025",
     title: "Software Development Engineer Intern",
     company: "Amazon",
+    logo: "/amazon.png",
     description: "Software Development Engineer Intern at Amazon on the Worldwide Returns & ReCommerce team in Fall of 2025 in Bellevue, WA.",
     link: "https://www.amazon.com/",
   },
@@ -25,6 +28,7 @@ const EXPERIENCES: Experience[] = [
     date: "June 2025 - Sep 2025",
     title: "Software Engineer Intern",
     company: "Salesforce",
+    logo: "/salesforce.png",
     description: "Software Engineer Intern at Salesforce on the Metadata Services Team in the Data Cloud org in Summer of 2025 in Bellevue, WA.",
     link: "https://www.salesforce.com/",
   },
@@ -32,6 +36,7 @@ const EXPERIENCES: Experience[] = [
     date: "Dec 2024 - June 2025",
     title: "Fellow",
     company: "DubHacks Next",
+    logo: "/dubhacksnext.png",
     description:
       "Selected to a UW startup incubator program where I am a part of a cohort of entrepreneurial-minded students.",
     link: "https://dubhacks.com",
@@ -40,6 +45,7 @@ const EXPERIENCES: Experience[] = [
     date: "Mar 2024 - May 2025",
     title: "Software Developer",
     company: "Sensors, Energy, and Automation Lab",
+    logo: "/uwseallogo.png",
     description: "In March 2024, I began as a Software Developer at SEAL at the University of Washington.",
     link: "https://www.uwseal.org/",
   },
@@ -47,6 +53,7 @@ const EXPERIENCES: Experience[] = [
     date: "Mar 2024 - Nov 2024",
     title: "Machine Learning Research Assistant",
     company: "Data Analysis & Intelligent Systems Lab",
+    logo: "/uwdaislogo.jpg",
     description:
       "Started in March 2024 as a Research Assistant at DAIS at the University of Washington where I optimized protein modeling ML models.",
     link: "https://sites.google.com/uw.edu/dais-uw",
@@ -55,6 +62,7 @@ const EXPERIENCES: Experience[] = [
     date: "June 2023 - Aug 2023",
     title: "Software Engineer Intern",
     company: "Datascience9",
+    logo: "/datascience9.png",
     description:
       "Worked mainly on the backend at Datascience9 as a Software Engineering Intern during Summer 2023",
     link: "https://datascience9.com",
@@ -63,6 +71,7 @@ const EXPERIENCES: Experience[] = [
     date: "August 2018 - Present",
     title: "Youth Soccer Referee",
     company: "U.S. Soccer Federation",
+    logo: "/uwsoccerlogo.png",
     description: "In August 2018, I began refereeing youth soccer games for the U.S. Soccer Federation.",
     link: "https://www.ussoccer.com",
   },
@@ -106,7 +115,7 @@ const TimelineScene: React.FC = () => {
   const sceneX = "-5vw" // Adjust this value: more negative = further left 
 
   return (
-    <section ref={wrapperRef} className="relative h-[500vh] bg-gray-950" id="timeline">
+    <section ref={wrapperRef} className="relative h-[500vh]" id="timeline">
       <div className="sticky top-0 h-screen overflow-hidden">
         {/* Right-side scene */}
         <div className="absolute inset-0">
@@ -116,13 +125,6 @@ const TimelineScene: React.FC = () => {
                 <stop offset="0%" stopColor="#60a5fa" />
                 <stop offset="100%" stopColor="#8b5cf6" />
               </linearGradient>
-              <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-                <feGaussianBlur stdDeviation="8" result="blur" />
-                <feMerge>
-                  <feMergeNode in="blur" />
-                  <feMergeNode in="SourceGraphic" />
-                </feMerge>
-              </filter>
               <filter id="nodeGlow" x="-50%" y="-50%" width="200%" height="200%">
                 <feGaussianBlur stdDeviation="4" result="blur" />
                 <feMerge>
@@ -130,11 +132,6 @@ const TimelineScene: React.FC = () => {
                   <feMergeNode in="SourceGraphic" />
                 </feMerge>
               </filter>
-              <radialGradient id="nodeGradient" cx="0.3" cy="0.3" r="0.8">
-                <stop offset="0%" stopColor="#ffffff" stopOpacity="0.9" />
-                <stop offset="30%" stopColor="#60a5fa" stopOpacity="0.8" />
-                <stop offset="100%" stopColor="#1e40af" stopOpacity="0.9" />
-              </radialGradient>
               <radialGradient id="nodeRing" cx="0.5" cy="0.5" r="1">
                 <stop offset="70%" stopColor="transparent" />
                 <stop offset="85%" stopColor="#60a5fa" stopOpacity="0.6" />
@@ -145,59 +142,52 @@ const TimelineScene: React.FC = () => {
             <motion.path
               d="M800,150 C650,400 950,650 800,900 C650,1150 950,1400 800,1650 C650,1900 950,2150 800,2400"
               stroke="url(#trail)"
-              strokeWidth="8"
-              filter="url(#glow)"
+              strokeWidth="3"
               fill="none"
               style={{ pathLength: prefersReducedMotion() ? 1 : scrollYProgress }}
               strokeLinecap="round"
             />
 
             {thresholds.map((t, i) => {
-              const isActive = useTransform(scrollYProgress, [t - 0.05, t, t + 0.05], [0, 1, 0])
               const nodeScale = useTransform(scrollYProgress, [t - 0.03, t, t + 0.03], [0.8, 1.2, 1])
               
               return (
                 <g key={i}>
                   {/* Outer ring for active state */}
                   <motion.circle
-                    r={24}
+                    r={28}
                     cx={800}
                     cy={140 + i * 380}
                     fill="url(#nodeRing)"
                     style={{ 
-                      opacity: useTransform(scrollYProgress, [t - 0.03, t, t + 0.03], [0, 0.8, 0]),
+                      opacity: useTransform(scrollYProgress, [t - 0.03, t, t + 0.03], [0, 0.6, 0]),
                       scale: useTransform(scrollYProgress, [t - 0.03, t, t + 0.03], [0.5, 1, 0.5])
                     }}
                   />
                   
-                  {/* Main node */}
-                  <motion.circle
-                    r={16}
-                    cx={800}
-                    cy={140 + i * 380}
-                    fill="url(#nodeGradient)"
-                    filter="url(#nodeGlow)"
+                  {/* Logo node using foreignObject */}
+                  <motion.foreignObject
+                    x={800 - 26}
+                    y={140 + i * 380 - 26}
+                    width={52}
+                    height={52}
                     style={{ 
-                      opacity: useTransform(scrollYProgress, [t - 0.03, t, t + 0.03], [0.3, 1, 0.6]),
+                      opacity: useTransform(scrollYProgress, [t - 0.03, t, t + 0.03], [0.5, 1, 0.7]),
                       scale: nodeScale
                     }}
-                  />
-                  
-                  {/* Inner highlight */}
-                  <motion.circle
-                    r={6}
-                    cx={794}
-                    cy={134 + i * 380}
-                    fill="#ffffff"
-                    style={{ 
-                      opacity: useTransform(scrollYProgress, [t - 0.03, t, t + 0.03], [0.1, 0.7, 0.3]),
-                      scale: nodeScale
-                    }}
-                  />
+                  >
+                    <div className="w-full h-full rounded-full bg-white/95 backdrop-blur-sm border-2 border-blue-400/40 p-2 shadow-lg flex items-center justify-center">
+                      <img 
+                        src={EXPERIENCES[i].logo} 
+                        alt={`${EXPERIENCES[i].company} logo`}
+                        className="w-full h-full object-contain"
+                      />
+                    </div>
+                  </motion.foreignObject>
                   
                   {/* Pulse effect */}
                   <motion.circle
-                    r={16}
+                    r={26}
                     cx={800}
                     cy={140 + i * 380}
                     fill="none"
@@ -211,7 +201,7 @@ const TimelineScene: React.FC = () => {
                   />
                   
                   <motion.text
-                    x={830}
+                    x={865}
                     y={140 + i * 380 + 8}
                     className="fill-white/90 text-lg font-semibold"
                     initial={{ opacity: 0, x: 10 }}
@@ -232,23 +222,42 @@ const TimelineScene: React.FC = () => {
         <div className="absolute inset-y-0 left-0 z-20 w-full md:w-[38%] px-4 md:px-8 py-6 md:py-10 pointer-events-none">
           <div className="sticky top-24">
             <div className="mb-5">
-              <div className="text-[11px] uppercase tracking-[0.2em] text-white/60">Experience</div>
+              <div className="text-xs uppercase tracking-[0.2em] text-white/80 font-medium">Experience</div>
             </div>
 
             <div className="pointer-events-auto">
-              <div className="p-[1px] rounded-2xl bg-gradient-to-b from-blue-500/30 to-purple-500/30">
-                <div className="rounded-2xl bg-gray-900/80 backdrop-blur-md p-5 border border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.2)]">
-                  <div className="text-sm text-blue-200">{EXPERIENCES[activeIndex].date}</div>
-                  <div className="mt-1 text-2xl md:text-3xl font-semibold leading-tight">{EXPERIENCES[activeIndex].title}</div>
-                  <div className="text-blue-300 text-sm">{EXPERIENCES[activeIndex].company}</div>
-                  <p className="mt-3 text-[15px] text-white/80 leading-relaxed">{EXPERIENCES[activeIndex].description}</p>
+              <div className="p-[1px] rounded-2xl bg-gradient-to-b from-blue-500/20 to-purple-500/20">
+                <div className="rounded-2xl bg-theme-bg-secondary/90 backdrop-blur-md p-6 border border-theme-border-subtle shadow-[0_8px_30px_rgb(0,0,0,0.2)]">
+                  
+                  {/* Logo and company header */}
+                  <div className="flex items-start gap-4 mb-4">
+                    <div className="flex-shrink-0 w-16 h-16 rounded-xl bg-white/95 border border-theme-border-subtle p-2.5 shadow-md">
+                      <div className="relative w-full h-full">
+                        <Image 
+                          src={EXPERIENCES[activeIndex].logo} 
+                          alt={`${EXPERIENCES[activeIndex].company} logo`}
+                          fill
+                          className="object-contain"
+                        />
+                      </div>
+                    </div>
+                    
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm text-blue-200">{EXPERIENCES[activeIndex].date}</div>
+                      <div className="text-blue-300 text-sm font-medium mt-0.5">{EXPERIENCES[activeIndex].company}</div>
+                    </div>
+                  </div>
+
+                  {/* Content */}
+                  <div className="text-2xl md:text-3xl font-semibold leading-tight mb-3">{EXPERIENCES[activeIndex].title}</div>
+                  <p className="text-[15px] text-white/80 leading-relaxed">{EXPERIENCES[activeIndex].description}</p>
                   {EXPERIENCES[activeIndex].link && (
                     <div className="mt-4">
                       <a
                         href={EXPERIENCES[activeIndex].link}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-2 text-sm text-blue-300 hover:text-blue-200"
+                        className="inline-flex items-center gap-2 text-sm text-blue-300 hover:text-blue-200 transition-colors"
                       >
                         Learn more →
                       </a>

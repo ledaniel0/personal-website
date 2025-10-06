@@ -2,6 +2,7 @@ import type React from "react"
 import "./globals.css"
 import { Inter } from "next/font/google"
 import CustomCursor from "@/components/CustomCursor"
+import GlobalParticles from "@/components/GlobalParticles"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -19,7 +20,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="scroll-smooth">
+      <head>
+        <script dangerouslySetInnerHTML={{
+          __html: `history.scrollRestoration = "manual"`
+        }} />
+      </head>
       <body className={`${inter.className} bg-gray-900 text-white`}>
+        <GlobalParticles />
         <CustomCursor />
         {children}
       </body>

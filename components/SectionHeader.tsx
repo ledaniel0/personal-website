@@ -13,10 +13,10 @@ type SectionHeaderProps = {
 const SectionHeader: React.FC<SectionHeaderProps> = ({ eyebrow, title, description, align = "center" }) => {
   const isCenter = align === "center"
   return (
-    <div className={`${isCenter ? "text-center" : "text-left"}`}>
+    <div className={`mb-12 ${isCenter ? "text-center" : "text-left"}`}>
       {eyebrow && (
         <motion.div
-          className="text-[11px] uppercase tracking-[0.2em] text-white/60"
+          className="text-xs uppercase tracking-wider text-theme-text-tertiary mb-2"
           initial={{ opacity: 0, y: 6 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.4 }}
@@ -26,7 +26,7 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({ eyebrow, title, descripti
         </motion.div>
       )}
       <motion.h2
-        className="text-4xl font-bold mt-2"
+        className="text-3xl md:text-4xl font-semibold text-theme-text-primary mb-3"
         initial={{ opacity: 0, y: 8 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.4 }}
@@ -36,7 +36,7 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({ eyebrow, title, descripti
       </motion.h2>
       {description && (
         <motion.p
-          className={`mt-3 text-white/70 ${isCenter ? "mx-auto max-w-2xl" : ""}`}
+          className={`text-theme-text-secondary text-base ${isCenter ? "mx-auto max-w-2xl" : ""}`}
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true, amount: 0.4 }}

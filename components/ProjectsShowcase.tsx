@@ -26,7 +26,7 @@ const ProjectItem: React.FC<{ index: number; p: (typeof projectData)[number] }> 
     offset: ["start end", "end start"],
   })
 
-  const y = useTransform(scrollYProgress, [0, 1], [50, -50])
+  const y = useTransform(scrollYProgress, [0, 1], [20, -20])
 
   return (
     <motion.div
@@ -58,7 +58,7 @@ const ProjectsShowcase: React.FC = () => {
   const isInView = useInView(sectionRef, { once: false, amount: 0.2 })
 
   return (
-    <section ref={sectionRef} className="py-20 bg-gray-900 overflow-hidden">
+    <section id="projects" ref={sectionRef} className="py-20 overflow-hidden">
       <div className="container mx-auto px-4">
         <SectionHeader title="Projects" description="check out some of my work" />
         <div className="flex flex-wrap -mx-4">

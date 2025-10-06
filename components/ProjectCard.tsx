@@ -13,24 +13,39 @@ type ProjectCardProps = {
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, tags, href, icon }) => {
   return (
-    <motion.a href={href} target="_blank" rel="noreferrer" className="block h-full" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-      <div className="rounded-2xl border border-white/10 bg-gray-800/70 hover:bg-gray-800/80 transition-colors h-full overflow-hidden">
-        <div className="h-14 bg-gradient-to-r from-blue-500/30 via-purple-500/30 to-blue-500/30 flex items-center px-4">
-          <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-white/80">
-            {icon}
+    <motion.a 
+      href={href} 
+      target="_blank" 
+      rel="noreferrer" 
+      className="group block h-full" 
+      whileHover={{ y: -2 }} 
+      transition={{ duration: 0.15 }}
+    >
+      <div className="rounded-lg border border-theme-border-subtle bg-theme-surface-base hover:bg-theme-surface-hover hover:border-theme-border-medium transition-all duration-150 h-full overflow-hidden">
+        <div className="p-6">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-8 h-8 rounded-md bg-theme-accent-blue-bg flex items-center justify-center text-theme-accent-blue">
+              {icon}
+            </div>
+            <h3 className="text-xl font-semibold text-theme-text-primary group-hover:text-theme-accent-blue transition-colors">
+              {title}
+            </h3>
           </div>
-        </div>
-        <div className="p-5">
-          <h3 className="text-xl font-semibold mb-1">{title}</h3>
-          <p className="text-white/70 text-sm mb-3">{description}</p>
+          
+          <p className="text-sm text-theme-text-secondary mb-4 line-clamp-3 leading-relaxed">
+            {description}
+          </p>
+          
           <div className="flex flex-wrap gap-2">
             {tags.slice(0, 3).map((t) => (
-              <span key={t} className="rounded-full border border-white/10 px-2 py-0.5 text-xs text-white/70">
+              <span 
+                key={t} 
+                className="px-3 py-1 text-xs rounded border border-theme-accent-blue/20 bg-theme-accent-blue-bg text-theme-accent-blue"
+              >
                 {t}
               </span>
             ))}
           </div>
-          <div className="mt-4 text-blue-300 text-sm">View code →</div>
         </div>
       </div>
     </motion.a>

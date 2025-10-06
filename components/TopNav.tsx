@@ -6,7 +6,7 @@ import { motion, useScroll, useSpring } from "framer-motion"
 
 const sections = [
   { id: "hero", label: "Home" },
-  { id: "about", label: "About" },
+  { id: "education", label: "Education" },
   { id: "timeline", label: "Experience" },
   { id: "projects", label: "Projects" },
 ]
@@ -19,15 +19,28 @@ const TopNav: React.FC = () => {
 
   useEffect(() => {
     const handleScroll = () => {
+      // Check which section's top is closest to crossing the 100px threshold
+      // We want the section whose top is highest on screen but still below 100px,
+      // or if multiple sections have crossed, the one that crossed most recently (highest top value)
+      let currentSection = "hero"
+      let bestTop = -Infinity
+      
       for (const s of sections) {
         const el = document.getElementById(s.id)
         if (!el) continue
         const rect = el.getBoundingClientRect()
-        if (rect.top <= 100 && rect.bottom >= 100) {
-          setActive(s.id)
-          break
+        
+        // If section's top is above or at the threshold (100px) and bottom is below it
+        if (rect.top <= 100 && rect.bottom > 100) {
+          // Pick the section with the highest top value (most recently crossed the threshold)
+          if (rect.top > bestTop) {
+            bestTop = rect.top
+            currentSection = s.id
+          }
         }
       }
+      
+      setActive(currentSection)
     }
     window.addEventListener("scroll", handleScroll)
     handleScroll()
