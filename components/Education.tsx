@@ -9,7 +9,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 const images = [
   "/376A5487.jpg",
   "/12D28B00-0DF8-4691-8625-B1619D1690F0.jpg",
-  "/attachment:19e20fd0-4c15-4caa-803e-b70542d64d32:IMG_0118.JPG",
+  "/IMG_0118.JPG",
   "/IMG_0220.jpg",
   "/IMG_1689.jpg",
   "/IMG_3865.JPG",
