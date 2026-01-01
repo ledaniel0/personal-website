@@ -48,5 +48,13 @@ export const projects: ProjectData[] = [
     href: "https://github.com/ledaniel0/DoublePendulum",
     icon: "waveform",
   },
+  {
+    slug: "triageforce",
+    title: "Triageforce",
+    description: "Disaster resource allocation management platform",
+    tags: ["React", "Python", "Node.js"],
+    href: "https://triageforce.netlify.app/",
+    icon: "waveform",
+  },
 ]
 

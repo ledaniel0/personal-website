@@ -71,7 +71,7 @@ export default function Education() {
                 {/* University Logo - Larger */}
                 <div className="flex-shrink-0 w-28 h-28 relative">
                   <Image
-                    src="uwseal.png"
+                    src="uwlogo.png"
                     alt="University of Washington Logo"
                     fill
                     className="object-contain"

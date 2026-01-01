@@ -17,6 +17,14 @@ type Experience = {
 
 const EXPERIENCES: Experience[] = [
   {
+    date: "Jan 2026 - Mar 2025",
+    title: "Software Engineer Intern",
+    company: "Snowflake",
+    logo: "snowflakelogo.png",
+    description: "Software Engineer Intern at Snowflake on the Platform Infrastructure team in Winter of 2026 in Menlo Park, CA.",
+    link: "https://www.snowflake.com/",
+  },
+  {
     date: "Sep 2025 - Dec 2025",
     title: "Software Development Engineer Intern",
     company: "Amazon",
